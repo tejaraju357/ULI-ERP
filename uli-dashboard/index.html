@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ULI Studio ERP — Overview Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.js"></script>
+</head>
+<body>
+
+  <!-- ═══════════ Loading Overlay ═══════════ -->
+  <div id="loading-overlay" class="loading-overlay" role="status" aria-label="Loading">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading dashboard…</p>
+    </div>
+  </div>
+
+  <!-- ═══════════ App Container ═══════════ -->
+  <div class="app-container">
+
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span class="logo-icon"><i data-lucide="gem"></i></span>
+          <span class="logo-text">ULI Studio <span class="logo-erp">ERP</span></span>
+        </div>
+        <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close sidebar">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <!-- Populated by app.js -->
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-badge">DEMO DATA</div>
+        <div class="sidebar-version">v0.1.0 — Prototype</div>
+      </div>
+    </aside>
+
+    <!-- ── Sidebar Overlay (mobile) ── -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ── Main Content ── -->
+    <main class="main-content" id="main-content">
+
+      <!-- ── Top Navigation ── -->
+      <header class="topnav" id="topnav">
+        <div class="topnav-left">
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Open sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="topnav-titles">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <span>Home</span>
+              <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+              <span class="breadcrumb-current">Overview</span>
+            </nav>
+            <h1 class="page-title">Overview Dashboard</h1>
+          </div>
+        </div>
+
+        <div class="topnav-right">
+          <!-- Search -->
+          <div class="topnav-search" id="topnav-search">
+            <button class="topnav-icon-btn" id="search-toggle-btn" aria-label="Search">
+              <i data-lucide="search"></i>
+            </button>
+            <div class="search-expanded" id="search-expanded">
+              <i data-lucide="search" class="search-input-icon"></i>
+              <input type="text" id="search-input" class="search-input" placeholder="Search modules, leads, projects…" autocomplete="off">
+              <button class="search-close-btn" id="search-close-btn" aria-label="Close search">
+                <i data-lucide="x"></i>
+              </button>
+              <div class="search-results" id="search-results"></div>
+            </div>
+          </div>
+
+          <!-- Notifications -->
+          <div class="topnav-notifications" id="topnav-notifications">
+            <button class="topnav-icon-btn" id="notifications-btn" aria-label="Notifications">
+              <i data-lucide="bell"></i>
+              <span class="notification-badge" id="notification-badge"></span>
+            </button>
+            <div class="dropdown-panel notifications-dropdown" id="notifications-dropdown">
+              <div class="dropdown-header">
+                <h3>Notifications</h3>
+                <button class="btn-link" id="mark-all-read-btn">Mark all read</button>
+              </div>
+              <div class="dropdown-body" id="notifications-list">
+                <!-- Populated by app.js -->
+              </div>
+              <div class="dropdown-footer">
+                <button class="btn-link">View all notifications</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Profile -->
+          <div class="topnav-profile" id="topnav-profile">
+            <button class="profile-btn" id="profile-btn" aria-label="User profile">
+              <div class="avatar" id="user-avatar"></div>
+              <div class="profile-info">
+                <span class="profile-name" id="profile-name"></span>
+                <span class="profile-role" id="profile-role"></span>
+              </div>
+              <i data-lucide="chevron-down" class="profile-chevron"></i>
+            </button>
+            <div class="dropdown-panel profile-dropdown" id="profile-dropdown">
+              <div class="dropdown-header profile-dropdown-header">
+                <div class="avatar avatar-lg" id="dropdown-avatar"></div>
+                <div>
+                  <p class="profile-dropdown-name" id="dropdown-name"></p>
+                  <p class="profile-dropdown-email" id="dropdown-email"></p>
+                </div>
+              </div>
+              <div class="dropdown-body">
+                <a href="#" class="dropdown-item"><i data-lucide="user"></i> My Profile</a>
+                <a href="#" class="dropdown-item"><i data-lucide="settings"></i> Settings</a>
+                <a href="#" class="dropdown-item"><i data-lucide="help-circle"></i> Help & Support</a>
+              </div>
+              <div class="dropdown-footer">
+                <a href="#" class="dropdown-item dropdown-item-danger"><i data-lucide="log-out"></i> Sign Out</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ── Dashboard Content ── -->
+      <div class="dashboard-content" id="dashboard-content">
+
+        <!-- A. Welcome Section -->
+        <section class="welcome-section" id="welcome-section">
+          <div class="welcome-text">
+            <h2 class="welcome-greeting" id="welcome-greeting"></h2>
+            <p class="welcome-description">Here's your business snapshot. All values are <strong>demo data</strong> for prototype review.</p>
+          </div>
+          <div class="welcome-actions">
+            <span class="welcome-date" id="welcome-date"></span>
+            <div class="date-range-filter">
+              <i data-lucide="calendar" class="filter-icon"></i>
+              <select id="date-range-select" class="filter-select" aria-label="Date range">
+                <option value="today">Today</option>
+                <option value="7d">Last 7 Days</option>
+                <option value="30d" selected>Last 30 Days</option>
+                <option value="quarter">This Quarter</option>
+                <option value="fy">This FY</option>
+              </select>
+            </div>
+            <button class="btn btn-outline btn-icon" id="refresh-btn" aria-label="Refresh data">
+              <i data-lucide="refresh-cw"></i>
+              <span class="btn-label">Refresh</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- B. KPI Cards -->
+        <section class="kpi-section" id="kpi-section" aria-label="Key performance indicators">
+          <!-- Populated by dashboard.js -->
+        </section>
+
+        <!-- C & D. Main Grid: Action Required + Project Health -->
+        <div class="dashboard-grid">
+
+          <!-- C. Action Required -->
+          <section class="card card-full" id="action-section">
+            <div class="card-header">
+              <h3 class="card-title"><i data-lucide="alert-circle"></i> Action Required</h3>
+              <span class="card-count" id="action-count"></span>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table" id="action-table">
+                  <thead>
+                    <tr>
+                      <th>Reference</th>
+                      <th>Description</th>
+                      <th>Module</th>
+                      <th>Assigned To</th>
+                      <th>Due Date</th>
+                      <th>Priority</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="action-table-body">
+                    <!-- Populated by dashboard.js -->
+                  </tbody>
+                </table>
+              </div>
+              <!-- Empty state -->
+              <div class="state-message state-empty hidden" id="action-empty">
+                <i data-lucide="check-circle-2"></i>
+                <p>All clear! No pending actions.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- D. Project Health -->
+          <section class="card" id="project-section">
+            <div class="card-header">
+              <h3 class="card-title"><i data-lucide="activity"></i> Project Health</h3>
+            </div>
+            <div class="card-body" id="project-list">
+              <!-- Populated by dashboard.js -->
+            </div>
+            <div class="state-message state-empty hidden" id="project-empty">
+              <i data-lucide="folder-open"></i>
+              <p>No active projects.</p>
+            </div>
+          </section>
+        </div>
+
+        <!-- Procurement & Client Variations Spotlight -->
+        <section class="card" style="margin-bottom:24px;border-left:4px solid var(--blue);background:linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);">
+          <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:var(--radius);background:#dbeafe;color:#2563eb;"><i data-lucide="shopping-bag"></i></span>
+              <div>
+                <h3 class="card-title" style="margin:0;font-size:1rem;">Purchase & PO — Procurement & Client Variations</h3>
+                <div style="font-size:.76rem;color:var(--text-secondary);margin-top:2px;">Real-time material commitments, approval tiers & client scope changes across 5 active projects</div>
+              </div>
+            </div>
+            <a href="../uli-purchase/index.html" class="btn btn-primary btn-sm">
+              <span>Open Purchase Workspace</span>
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:14px;margin-bottom:14px;">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:var(--radius);padding:12px;">
+                <div style="font-size:.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Open PO Value</div>
+                <div style="font-size:1.2rem;font-weight:700;color:var(--blue);margin-top:2px;">₹86.84 L</div>
+                <div style="font-size:.72rem;color:var(--text-secondary);margin-top:2px;">5 issued purchase contracts</div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:var(--radius);padding:12px;">
+                <div style="font-size:.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Pending PR Approvals</div>
+                <div style="font-size:1.2rem;font-weight:700;color:var(--amber);margin-top:2px;">3 Requisitions</div>
+                <div style="font-size:.72rem;color:var(--text-secondary);margin-top:2px;">₹72.70 L awaiting clearance</div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:var(--radius);padding:12px;">
+                <div style="font-size:.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Client Scope Variations</div>
+                <div style="font-size:1.2rem;font-weight:700;color:#7c3aed;margin-top:2px;">4 Active Orders</div>
+                <div style="font-size:.72rem;color:var(--text-secondary);margin-top:2px;">Oberoi, Prestige, Godrej, Brigade</div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:var(--radius);padding:12px;">
+                <div style="font-size:.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">3-Way Match Verification</div>
+                <div style="font-size:1.2rem;font-weight:700;color:var(--red);margin-top:2px;">2 Invoices Flagged</div>
+                <div style="font-size:.72rem;color:var(--text-secondary);margin-top:2px;">Qty & Rate discrepancy alerts</div>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:.8rem;">
+              <div style="display:flex;align-items:center;gap:6px;color:#1e40af;">
+                <i data-lucide="sparkles" style="color:#2563eb;width:16px;height:16px;"></i>
+                <span><strong>Latest Client Variation:</strong> Mrs. Sunita Oberoi approved Master Bath Rose Gold fixture upgrade (+₹2.86 L) · <em>PO-2026-0171-v1.1 amended</em></span>
+              </div>
+              <a href="../uli-purchase/index.html" style="font-weight:700;color:#2563eb;text-decoration:underline;">View in Purchase Module →</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- E & F. Bottom Grid: Recent Activity + Quick Actions -->
+        <div class="dashboard-grid dashboard-grid-bottom">
+
+          <!-- E. Recent Activity -->
+          <section class="card" id="activity-section">
+            <div class="card-header">
+              <h3 class="card-title"><i data-lucide="clock"></i> Recent Activity</h3>
+            </div>
+            <div class="card-body">
+              <div class="activity-timeline" id="activity-timeline">
+                <!-- Populated by dashboard.js -->
+              </div>
+              <div class="state-message state-empty hidden" id="activity-empty">
+                <i data-lucide="inbox"></i>
+                <p>No recent activity.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- F. Quick Actions -->
+          <section class="card" id="quick-actions-section">
+            <div class="card-header">
+              <h3 class="card-title"><i data-lucide="zap"></i> Quick Actions</h3>
+            </div>
+            <div class="card-body">
+              <div class="quick-actions-grid" id="quick-actions-grid">
+                <button class="quick-action-btn" data-action="create-lead">
+                  <span class="qa-icon qa-blue"><i data-lucide="user-plus"></i></span>
+                  <span class="qa-label">Create Lead</span>
+                </button>
+                <button class="quick-action-btn" data-action="create-pr">
+                  <span class="qa-icon qa-green"><i data-lucide="file-plus"></i></span>
+                  <span class="qa-label">Create Purchase Requisition</span>
+                </button>
+                <button class="quick-action-btn" data-action="pending-approvals">
+                  <span class="qa-icon qa-amber"><i data-lucide="clipboard-check"></i></span>
+                  <span class="qa-label">View Pending Approvals</span>
+                </button>
+                <button class="quick-action-btn" data-action="view-projects">
+                  <span class="qa-icon qa-purple"><i data-lucide="kanban"></i></span>
+                  <span class="qa-label">View Projects</span>
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+      </div><!-- /dashboard-content -->
+
+      <!-- ── Error State ── -->
+      <div class="state-page state-error hidden" id="error-state">
+        <i data-lucide="alert-triangle"></i>
+        <h2>Something went wrong</h2>
+        <p>We couldn't load the dashboard data. Please try again.</p>
+        <button class="btn btn-primary" id="error-retry-btn">Retry</button>
+      </div>
+
+    </main>
+  </div><!-- /app-container -->
+
+  <!-- ═══════════ Modal Container ═══════════ -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal" id="modal" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Modal</h3>
+        <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamic content -->
+      </div>
+      <div class="modal-footer" id="modal-footer">
+        <button class="btn btn-outline" id="modal-cancel-btn">Close</button>
+        <button class="btn btn-primary" id="modal-confirm-btn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ Toast Container ═══════════ -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- ═══════════ Scripts ═══════════ -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ULI Studio ERP — Leads & CRM</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/crm.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.js"></script>
+</head>
+<body>
+
+  <!-- ═══════════ App Container ═══════════ -->
+  <div class="app-container">
+
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span class="logo-icon"><i data-lucide="gem"></i></span>
+          <span class="logo-text">ULI Studio <span class="logo-erp">ERP</span></span>
+        </div>
+        <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close sidebar">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Main Menu</div>
+        <a href="../uli-dashboard/index.html" class="nav-item">
+          <i data-lucide="layout-dashboard"></i>
+          <span class="nav-label">Overview</span>
+        </a>
+        <a href="#" class="nav-item active" id="nav-crm-root">
+          <i data-lucide="handshake"></i>
+          <span class="nav-label">Leads & CRM</span>
+          <span class="nav-badge badge-count" id="sidebar-lead-count">15</span>
+        </a>
+        <a href="../uli-purchase/index.html" class="nav-item">
+          <i data-lucide="shopping-bag"></i>
+          <span class="nav-label">Purchase & PO</span>
+          <span class="nav-badge badge-count">7</span>
+        </a>
+        <div class="nav-item disabled" title="Coming soon">
+          <i data-lucide="kanban"></i>
+          <span class="nav-label">Project Management</span>
+          <span class="nav-badge badge-soon">Soon</span>
+        </div>
+        <div class="nav-item disabled" title="Coming soon">
+          <i data-lucide="file-stack"></i>
+          <span class="nav-label">Drawings & Docs</span>
+          <span class="nav-badge badge-soon">Soon</span>
+        </div>
+        <div class="nav-item disabled" title="Coming soon">
+          <i data-lucide="calculator"></i>
+          <span class="nav-label">Accounting & Finance</span>
+          <span class="nav-badge badge-soon">Soon</span>
+        </div>
+        <div class="nav-item disabled" title="Coming soon">
+          <i data-lucide="badge-check"></i>
+          <span class="nav-label">HR & Payroll</span>
+          <span class="nav-badge badge-soon">Soon</span>
+        </div>
+        <div class="nav-item disabled" title="Coming soon">
+          <i data-lucide="shield-check"></i>
+          <span class="nav-label">Roles & Approvals</span>
+          <span class="nav-badge badge-soon">Soon</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-badge">DEMO DATA</div>
+        <div class="sidebar-version">CRM Module v0.2.0</div>
+      </div>
+    </aside>
+
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ── Main Content Area ── -->
+    <main class="main-content" id="main-content">
+
+      <!-- ── Top Navigation Bar ── -->
+      <header class="topnav" id="topnav">
+        <div class="topnav-left">
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Open sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="topnav-titles">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <a href="../uli-dashboard/index.html">Home</a>
+              <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+              <span>Leads & CRM</span>
+              <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+              <span class="breadcrumb-current" id="breadcrumb-current-view">CRM Dashboard</span>
+            </nav>
+            <h1 class="page-title" id="page-title-text">CRM Dashboard</h1>
+          </div>
+        </div>
+
+        <div class="topnav-right">
+          <!-- Search Box -->
+          <div class="topnav-search" id="topnav-search">
+            <button class="topnav-icon-btn" id="search-toggle-btn" aria-label="Search">
+              <i data-lucide="search"></i>
+            </button>
+            <div class="search-expanded" id="search-expanded">
+              <i data-lucide="search" class="search-input-icon"></i>
+              <input type="text" id="global-search-input" class="search-input" placeholder="Search leads, quotes, clients…" autocomplete="off">
+              <button class="search-close-btn" id="search-close-btn" aria-label="Close search">
+                <i data-lucide="x"></i>
+              </button>
+              <div class="search-results" id="global-search-results"></div>
+            </div>
+          </div>
+
+          <!-- Notifications -->
+          <div class="topnav-notifications" id="topnav-notifications">
+            <button class="topnav-icon-btn" id="notifications-btn" aria-label="Notifications">
+              <i data-lucide="bell"></i>
+              <span class="notification-badge visible" id="notification-badge"></span>
+            </button>
+            <div class="dropdown-panel notifications-dropdown" id="notifications-dropdown">
+              <div class="dropdown-header">
+                <h3>CRM Notifications</h3>
+                <button class="btn-link" id="mark-all-read-btn">Mark all read</button>
+              </div>
+              <div class="dropdown-body" id="notifications-list">
+                <!-- Injected via app.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- User Profile -->
+          <div class="topnav-profile" id="topnav-profile">
+            <button class="profile-btn" id="profile-btn" aria-label="User profile">
+              <div class="avatar">PS</div>
+              <div class="profile-info">
+                <span class="profile-name">Priya Sharma</span>
+                <span class="profile-role">Sales Lead</span>
+              </div>
+              <i data-lucide="chevron-down" class="profile-chevron"></i>
+            </button>
+            <div class="dropdown-panel profile-dropdown" id="profile-dropdown">
+              <div class="dropdown-header profile-dropdown-header">
+                <div class="avatar avatar-lg">PS</div>
+                <div>
+                  <p class="profile-dropdown-name">Priya Sharma</p>
+                  <p class="profile-dropdown-email">priya@ulistudio.com</p>
+                </div>
+              </div>
+              <div class="dropdown-body">
+                <a href="#" class="dropdown-item"><i data-lucide="user"></i> My Profile</a>
+                <a href="#" class="dropdown-item"><i data-lucide="settings"></i> CRM Settings</a>
+              </div>
+              <div class="dropdown-footer">
+                <a href="../uli-dashboard/index.html" class="dropdown-item"><i data-lucide="arrow-left"></i> Back to Main ERP</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ── CRM Sub-Navigation Bar (11 Screens Navigation) ── -->
+      <nav class="crm-header-nav" aria-label="CRM module navigation">
+        <div class="crm-nav-tabs" id="crm-main-tabs">
+          <button class="crm-tab-btn active" data-view="dashboard">
+            <i data-lucide="bar-chart-3"></i>
+            <span>Dashboard</span>
+          </button>
+          <button class="crm-tab-btn" data-view="leads">
+            <i data-lucide="users"></i>
+            <span>Leads List</span>
+            <span class="tab-badge" id="tab-badge-leads">15</span>
+          </button>
+          <button class="crm-tab-btn" data-view="pipeline">
+            <i data-lucide="trello"></i>
+            <span>Pipeline Board</span>
+          </button>
+          <button class="crm-tab-btn" data-view="followups">
+            <i data-lucide="calendar-clock"></i>
+            <span>Follow-ups</span>
+            <span class="tab-badge tab-badge-red" id="tab-badge-followups">2</span>
+          </button>
+          <button class="crm-tab-btn" data-view="visits">
+            <i data-lucide="map-pin"></i>
+            <span>Site Visits</span>
+            <span class="tab-badge" id="tab-badge-visits">2</span>
+          </button>
+          <button class="crm-tab-btn" data-view="funnel">
+            <i data-lucide="filter"></i>
+            <span>Funnel Analysis</span>
+          </button>
+          <button class="crm-tab-btn" data-view="quotations">
+            <i data-lucide="file-text"></i>
+            <span>Quotations</span>
+            <span class="tab-badge" id="tab-badge-quotes">6</span>
+          </button>
+        </div>
+
+        <div class="crm-header-actions">
+          <button class="btn btn-outline btn-sm" id="btn-quick-new-quote">
+            <i data-lucide="file-plus"></i>
+            <span>New Quote</span>
+          </button>
+          <button class="btn btn-primary btn-sm" id="btn-quick-new-lead">
+            <i data-lucide="user-plus"></i>
+            <span>Add New Lead</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 1: CRM DASHBOARD VIEW
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view active" id="view-dashboard">
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item">
+              <i data-lucide="calendar"></i>
+              <select id="dash-date-filter" aria-label="Date filter">
+                <option value="this-month" selected>This Month (Nov 2026)</option>
+                <option value="last-30d">Last 30 Days</option>
+                <option value="this-quarter">This Quarter</option>
+                <option value="this-fy">This FY (2026-27)</option>
+                <option value="all-time">All Time</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="user"></i>
+              <select id="dash-salesperson-filter" aria-label="Salesperson filter">
+                <option value="all">All Salespeople</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="tag"></i>
+              <select id="dash-source-filter" aria-label="Source filter">
+                <option value="all">All Lead Sources</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm" id="dash-refresh-btn">
+            <i data-lucide="refresh-cw"></i>
+            <span>Refresh</span>
+          </button>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="crm-kpi-grid">
+          <div class="crm-kpi-card kpi-accent-blue" id="kpi-card-new-leads">
+            <div class="crm-kpi-top">
+              <span class="crm-kpi-label">New Leads</span>
+              <div class="crm-kpi-icon"><i data-lucide="user-plus"></i></div>
+            </div>
+            <div class="crm-kpi-value" id="kpi-val-new-leads">3</div>
+            <div class="crm-kpi-sub">
+              <span class="crm-trend-up"><i data-lucide="trending-up"></i> +15%</span> vs previous month
+            </div>
+          </div>
+
+          <div class="crm-kpi-card kpi-accent-green" id="kpi-card-pipeline-val">
+            <div class="crm-kpi-top">
+              <span class="crm-kpi-label">Total Pipeline Value</span>
+              <div class="crm-kpi-icon"><i data-lucide="indian-rupee"></i></div>
+            </div>
+            <div class="crm-kpi-value" id="kpi-val-pipeline">₹9.85 Cr</div>
+            <div class="crm-kpi-sub">
+              Across <strong id="kpi-active-lead-count">13</strong> active opportunities
+            </div>
+          </div>
+
+          <div class="crm-kpi-card kpi-accent-purple" id="kpi-card-conv-rate">
+            <div class="crm-kpi-top">
+              <span class="crm-kpi-label">Quote-to-Won Rate</span>
+              <div class="crm-kpi-icon"><i data-lucide="award"></i></div>
+            </div>
+            <div class="crm-kpi-value" id="kpi-val-conv-rate">33.3%</div>
+            <div class="crm-kpi-sub">
+              <strong>1 Won</strong> / 3 closed quotes
+            </div>
+          </div>
+
+          <div class="crm-kpi-card kpi-accent-red" id="kpi-card-overdue">
+            <div class="crm-kpi-top">
+              <span class="crm-kpi-label">Overdue Follow-ups</span>
+              <div class="crm-kpi-icon"><i data-lucide="clock-alert"></i></div>
+            </div>
+            <div class="crm-kpi-value" id="kpi-val-overdue">2</div>
+            <div class="crm-kpi-sub">
+              Requires immediate action
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Grid: Left (Tables) & Right (Pipeline & Source Summary) -->
+        <div class="crm-dash-grid">
+          <div class="crm-dash-col">
+
+            <!-- Overdue Enquiries / Urgent Attention -->
+            <div class="card" style="margin-bottom: 20px;">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="alert-triangle" style="color:var(--red)"></i> Overdue Follow-ups</h3>
+                <span class="badge badge-status-overdue" id="dash-overdue-count">2 Overdue</span>
+              </div>
+              <div class="card-body no-padding">
+                <div class="table-responsive">
+                  <table class="data-table" id="dash-overdue-table">
+                    <thead>
+                      <tr>
+                        <th>Lead</th>
+                        <th>Customer</th>
+                        <th>Assigned</th>
+                        <th>Due Date</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dash-overdue-tbody">
+                      <!-- Injected via crm-dashboard.js -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upcoming Follow-ups (Next 3 Days) -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="calendar-check"></i> Upcoming Follow-ups (Next 3 Days)</h3>
+                <button class="btn-link" id="btn-view-all-followups">View all follow-ups</button>
+              </div>
+              <div class="card-body no-padding">
+                <div class="table-responsive">
+                  <table class="data-table" id="dash-upcoming-table">
+                    <thead>
+                      <tr>
+                        <th>Lead</th>
+                        <th>Customer</th>
+                        <th>Scheduled</th>
+                        <th>Type</th>
+                        <th>Assigned</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dash-upcoming-tbody">
+                      <!-- Injected via crm-dashboard.js -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /crm-dash-col -->
+
+          <div class="crm-dash-col">
+
+            <!-- Pipeline Summary -->
+            <div class="card" style="margin-bottom: 20px;">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="trello"></i> Pipeline Summary</h3>
+                <button class="btn-link" id="btn-view-pipeline-board">Open Board</button>
+              </div>
+              <div class="card-body">
+                <div class="pipeline-bar-wrapper">
+                  <div class="pipeline-bar" id="dash-pipeline-bar">
+                    <!-- Populated dynamically -->
+                  </div>
+                  <div class="pipeline-bar-legend" id="dash-pipeline-legend">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+                <div id="dash-pipeline-stage-list">
+                  <!-- Stage breakdown list -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Acquisition Source Summary -->
+            <div class="card" style="margin-bottom: 20px;">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="pie-chart"></i> Acquisition Sources</h3>
+              </div>
+              <div class="card-body">
+                <div class="source-list" id="dash-source-breakdown">
+                  <!-- Injected via crm-dashboard.js -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Lead Activities -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="activity"></i> Recent Activities</h3>
+              </div>
+              <div class="card-body">
+                <div class="timeline" id="dash-recent-activities" style="padding-left:22px;">
+                  <!-- Injected via crm-dashboard.js -->
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /crm-dash-col -->
+        </div><!-- /crm-dash-grid -->
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 2: LEADS LIST VIEW
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view" id="view-leads">
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item filter-search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="leads-search-input" placeholder="Search customer, project, phone, lead ID…">
+            </div>
+            <div class="filter-item">
+              <i data-lucide="git-commit"></i>
+              <select id="leads-stage-filter" aria-label="Stage filter">
+                <option value="all">All Stages</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="user"></i>
+              <select id="leads-salesperson-filter" aria-label="Salesperson filter">
+                <option value="all">All Salespeople</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="tag"></i>
+              <select id="leads-source-filter" aria-label="Source filter">
+                <option value="all">All Sources</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="flag"></i>
+              <select id="leads-priority-filter" aria-label="Priority filter">
+                <option value="all">All Priorities</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btn-leads-add-new">
+            <i data-lucide="user-plus"></i>
+            <span>Add New Lead</span>
+          </button>
+        </div>
+
+        <!-- Leads Data Table Card -->
+        <div class="card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table" id="leads-data-table">
+                <thead>
+                  <tr>
+                    <th class="sortable" data-sort="id">Lead ID <i data-lucide="arrow-up-down" style="width:12px;height:12px;display:inline"></i></th>
+                    <th class="sortable" data-sort="customer">Customer & Project</th>
+                    <th>Contact</th>
+                    <th>Type / Source</th>
+                    <th>Assigned To</th>
+                    <th>Current Stage</th>
+                    <th class="sortable" data-sort="value">Expected Value</th>
+                    <th>Next Follow-up</th>
+                    <th>Created</th>
+                    <th style="text-align:right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="leads-table-tbody">
+                  <!-- Populated by leads.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Table empty state -->
+            <div class="state-message hidden" id="leads-empty-state">
+              <i data-lucide="user-x"></i>
+              <h4>No leads found</h4>
+              <p>Try clearing your search filters or add a new lead.</p>
+            </div>
+
+            <!-- Pagination bar -->
+            <div class="table-pagination">
+              <div id="leads-pagination-info">Showing 1 to 15 of 15 leads</div>
+              <div class="pagination-controls" id="leads-pagination-controls">
+                <!-- Injected via leads.js -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 3: CREATE NEW LEAD (DEDICATED VIEW)
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view" id="view-create-lead">
+        <div style="max-width: 900px; margin: 0 auto;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px;">
+            <div style="display:flex; align-items:center; gap: 12px;">
+              <button class="lead-back-btn" id="btn-create-lead-back" aria-label="Back"><i data-lucide="arrow-left"></i></button>
+              <div>
+                <h2 style="font-size:1.3rem; font-weight:700;">Create New Lead</h2>
+                <p style="font-size:.8rem; color:var(--text-secondary);">Capture enquiry details and assign an initial owner</p>
+              </div>
+            </div>
+            <div class="badge badge-soon">Unique Lead ID will be generated</div>
+          </div>
+
+          <!-- Duplicate Customer Warning Container -->
+          <div class="alert alert-warning hidden" id="duplicate-customer-warning">
+            <i data-lucide="alert-triangle"></i>
+            <div>
+              <strong>Possible Duplicate Customer Detected!</strong>
+              <div id="duplicate-warning-text">A customer with similar name or phone number already exists in CRM.</div>
+            </div>
+          </div>
+
+          <form id="create-lead-form" novalidate>
+            <!-- 1. Customer Information -->
+            <div class="card" style="margin-bottom: 20px;">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="user"></i> Customer Information</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-grid">
+                  <div class="form-group" id="fg-customerName">
+                    <label>Customer Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="inp-lead-name" placeholder="e.g. Rahul Shah" required>
+                    <span class="form-error">Customer name is required</span>
+                  </div>
+                  <div class="form-group" id="fg-customerPhone">
+                    <label>Phone Number <span class="required">*</span></label>
+                    <input type="tel" class="form-control" id="inp-lead-phone" placeholder="e.g. +91 98765 43210" required>
+                    <span class="form-error">Valid 10-digit phone number is required</span>
+                  </div>
+                  <div class="form-group" id="fg-customerEmail">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" id="inp-lead-email" placeholder="e.g. rahul@example.com">
+                  </div>
+                  <div class="form-group">
+                    <label>Alternate Contact</label>
+                    <input type="tel" class="form-control" id="inp-lead-alt-phone" placeholder="Optional secondary phone">
+                  </div>
+                  <div class="form-group form-full">
+                    <label>Customer Address / City</label>
+                    <textarea class="form-control" id="inp-lead-address" placeholder="Full address or area location"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Enquiry Information -->
+            <div class="card" style="margin-bottom: 20px;">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="home"></i> Project & Enquiry Details</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-grid">
+                  <div class="form-group form-full" id="fg-enquiryTitle">
+                    <label>Enquiry / Project Title <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="inp-lead-title" placeholder="e.g. Godrej Platinum — 3BHK Contemporary Interior" required>
+                    <span class="form-error">Enquiry title is required</span>
+                  </div>
+                  <div class="form-group">
+                    <label>Enquiry Type <span class="required">*</span></label>
+                    <select class="form-control" id="inp-lead-enquiry-type">
+                      <!-- Populated via JS -->
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Property Type</label>
+                    <select class="form-control" id="inp-lead-property-type">
+                      <!-- Populated via JS -->
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Project Location</label>
+                    <input type="text" class="form-control" id="inp-lead-location" placeholder="e.g. Worli, Mumbai">
+                  </div>
+                  <div class="form-group">
+                    <label>Service Required</label>
+                    <select class="form-control" id="inp-lead-service">
+                      <!-- Populated via JS -->
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Approximate Area</label>
+                    <input type="text" class="form-control" id="inp-lead-area" placeholder="e.g. 2,400 sqft">
+                  </div>
+                  <div class="form-group">
+                    <label>Budget Range</label>
+                    <select class="form-control" id="inp-lead-budget">
+                      <!-- Populated via JS -->
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Expected Deal Value (₹) <span class="required">*</span></label>
+                    <input type="number" class="form-control" id="inp-lead-value" placeholder="e.g. 3500000" min="0" required>
+                    <span class="form-error">Please enter expected value</span>
+                  </div>
+                  <div class="form-group">
+                    <label>Expected Start Date</label>
+                    <input type="date" class="form-control" id="inp-lead-start-date">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Lead Ownership & Next Actions -->
+            <div class="card" style="margin-bottom: 20px;">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="tag"></i> Lead Assignment & Next Action</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label>Lead Source <span class="required">*</span></label>
+                    <select class="form-control" id="inp-lead-source">
+                      <!-- Populated via JS -->
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Assigned Salesperson <span class="required">*</span></label>
+                    <select class="form-control" id="inp-lead-salesperson">
+                      <!-- Populated via JS -->
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Priority</label>
+                    <select class="form-control" id="inp-lead-priority">
+                      <!-- Populated via JS -->
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Initial Stage</label>
+                    <select class="form-control" id="inp-lead-stage">
+                      <option value="new-enquiry" selected>New Enquiry</option>
+                      <option value="qualified">Qualified</option>
+                    </select>
+                  </div>
+                  <div class="form-group form-full">
+                    <label>Scope Description / Client Preferences</label>
+                    <textarea class="form-control" id="inp-lead-desc" placeholder="Client preferences, design style, notes from first conversation…"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Next Follow-up Date & Time</label>
+                    <input type="datetime-local" class="form-control" id="inp-lead-next-followup">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions bar -->
+            <div style="display:flex; justify-content:flex-end; gap:12px; margin-bottom: 40px;">
+              <button type="button" class="btn btn-outline" id="btn-create-lead-cancel">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="btn-create-lead-submit">
+                <i data-lucide="check"></i>
+                <span>Save Lead</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 4: LEAD DETAIL WORKSPACE
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view" id="view-lead-detail">
+        <div id="lead-detail-container">
+          <!-- Populated by leads.js -->
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 5: PIPELINE KANBAN BOARD
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view" id="view-pipeline">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item">
+              <i data-lucide="user"></i>
+              <select id="pipeline-salesperson-filter" aria-label="Salesperson filter">
+                <option value="all">All Salespeople</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="tag"></i>
+              <select id="pipeline-source-filter" aria-label="Source filter">
+                <option value="all">All Sources</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="flag"></i>
+              <select id="pipeline-priority-filter" aria-label="Priority filter">
+                <option value="all">All Priorities</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn btn-outline btn-sm" id="btn-pipeline-toggle-list">
+              <i data-lucide="list"></i>
+              <span>Switch to List View</span>
+            </button>
+            <button class="btn btn-primary btn-sm" id="btn-pipeline-add-lead">
+              <i data-lucide="user-plus"></i>
+              <span>Add Lead</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Kanban Board Container -->
+        <div class="pipeline-board-container">
+          <div class="pipeline-board" id="pipeline-board-el">
+            <!-- 9 Stage columns injected via pipeline.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 6: FOLLOW-UP MANAGEMENT
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view" id="view-followups">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <button class="btn btn-sm btn-outline active" data-fstatus="all" id="btn-fu-all">All</button>
+            <button class="btn btn-sm btn-outline" data-fstatus="today" id="btn-fu-today">Today's</button>
+            <button class="btn btn-sm btn-outline" data-fstatus="upcoming" id="btn-fu-upcoming">Upcoming</button>
+            <button class="btn btn-sm btn-outline" data-fstatus="overdue" id="btn-fu-overdue">Overdue <span class="tab-badge tab-badge-red" id="fu-overdue-chip">2</span></button>
+            <button class="btn btn-sm btn-outline" data-fstatus="completed" id="btn-fu-completed">Completed</button>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btn-schedule-new-followup">
+            <i data-lucide="plus"></i>
+            <span>Schedule Follow-up</span>
+          </button>
+        </div>
+
+        <div id="followups-list-container">
+          <!-- Injected via followups.js -->
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 7: SITE VISIT MANAGEMENT
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view" id="view-visits">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <button class="btn btn-sm btn-outline active" data-vstatus="all" id="btn-v-all">All Visits</button>
+            <button class="btn btn-sm btn-outline" data-vstatus="scheduled" id="btn-v-scheduled">Scheduled</button>
+            <button class="btn btn-sm btn-outline" data-vstatus="completed" id="btn-v-completed">Completed</button>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btn-schedule-new-visit">
+            <i data-lucide="plus"></i>
+            <span>Schedule Site Visit</span>
+          </button>
+        </div>
+
+        <div id="site-visits-list-container">
+          <!-- Injected via site-visits.js -->
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 8: FUNNEL ANALYSIS
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view" id="view-funnel">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item">
+              <i data-lucide="calendar"></i>
+              <select id="funnel-date-filter" aria-label="Date filter">
+                <option value="all-time" selected>All Time</option>
+                <option value="this-month">This Month</option>
+                <option value="this-fy">This FY (2026-27)</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="user"></i>
+              <select id="funnel-salesperson-filter" aria-label="Salesperson filter">
+                <option value="all">All Salespeople</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="tag"></i>
+              <select id="funnel-source-filter" aria-label="Source filter">
+                <option value="all">All Sources</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Explainer alert box regarding conversion denominators -->
+        <div class="funnel-explainer-card">
+          <strong><i data-lucide="info" style="width:16px;height:16px;display:inline;vertical-align:text-bottom"></i> Conversion Metric Explanations:</strong>
+          <ul style="margin: 6px 0 0 18px;">
+            <li><strong>Stage Conversion %:</strong> Percentage of leads reaching this stage calculated against leads that reached the immediate preceding stage (Denominator: Preceding Stage Count).</li>
+            <li><strong>Drop-off %:</strong> Percentage of leads abandoned or disqualified at this stage prior to progression.</li>
+            <li><strong>Overall Conversion %:</strong> Total Won Leads divided by Total New Enquiries recorded (Denominator: Total Enquiries).</li>
+          </ul>
+        </div>
+
+        <!-- Funnel Visualization Card -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h3 class="card-title"><i data-lucide="filter"></i> Sales Funnel Stages</h3>
+            <span class="badge badge-priority-medium" id="funnel-overall-conv">Overall Conversion: 6.7% (1/15)</span>
+          </div>
+          <div class="card-body">
+            <div class="funnel-container" id="funnel-chart-bars">
+              <!-- Rendered via funnel.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Funnel Breakdown Tables (Salesperson & Source) -->
+        <div class="crm-dash-grid">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title"><i data-lucide="users"></i> Performance by Salesperson</h3>
+            </div>
+            <div class="card-body no-padding">
+              <div class="table-responsive">
+                <table class="data-table" id="funnel-rep-table">
+                  <thead>
+                    <tr>
+                      <th>Salesperson</th>
+                      <th>Total Leads</th>
+                      <th>Site Visits</th>
+                      <th>Quotes</th>
+                      <th>Won</th>
+                      <th>Win Rate</th>
+                    </tr>
+                  </thead>
+                  <tbody id="funnel-rep-tbody">
+                    <!-- Injected via funnel.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title"><i data-lucide="pie-chart"></i> Performance by Lead Source</h3>
+            </div>
+            <div class="card-body no-padding">
+              <div class="table-responsive">
+                <table class="data-table" id="funnel-source-table">
+                  <thead>
+                    <tr>
+                      <th>Source</th>
+                      <th>Leads</th>
+                      <th>Pipeline Val</th>
+                      <th>Won Deals</th>
+                      <th>Conv %</th>
+                    </tr>
+                  </thead>
+                  <tbody id="funnel-source-tbody">
+                    <!-- Injected via funnel.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 9: QUOTATIONS LIST VIEW
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view" id="view-quotations">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item filter-search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="quotes-search-input" placeholder="Search quote ref, customer, project…">
+            </div>
+            <div class="filter-item">
+              <i data-lucide="tag"></i>
+              <select id="quotes-status-filter" aria-label="Status filter">
+                <option value="all">All Statuses</option>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btn-create-new-quote">
+            <i data-lucide="plus"></i>
+            <span>Create Quotation</span>
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table" id="quotations-data-table">
+                <thead>
+                  <tr>
+                    <th>Quote Ref</th>
+                    <th>Customer</th>
+                    <th>Linked Lead</th>
+                    <th>Version</th>
+                    <th>Estimated Value</th>
+                    <th>Created By</th>
+                    <th>Created Date</th>
+                    <th>Valid Until</th>
+                    <th>Status</th>
+                    <th style="text-align:right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="quotations-table-tbody">
+                  <!-- Populated by quotations.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 10: QUOTATION BUILDER
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view" id="view-quotation-builder">
+        <div id="quotation-builder-container">
+          <!-- Injected via quotations.js -->
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 11: QUOTATION DETAIL & REVISION HISTORY
+           ══════════════════════════════════════════════════ -->
+      <section class="crm-view" id="view-quotation-detail">
+        <div id="quotation-detail-container">
+          <!-- Injected via quotations.js -->
+        </div>
+      </section>
+
+    </main>
+  </div><!-- /app-container -->
+
+  <!-- ═══════════ Generic Modal Container ═══════════ -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal" id="modal" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Modal Title</h3>
+        <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamic modal content -->
+      </div>
+      <div class="modal-footer" id="modal-footer">
+        <button class="btn btn-outline" id="modal-cancel-btn">Close</button>
+        <button class="btn btn-primary" id="modal-confirm-btn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ Toast Container ═══════════ -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- ═══════════ Scripts ═══════════ -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/crm-dashboard.js"></script>
+  <script src="js/leads.js"></script>
+  <script src="js/pipeline.js"></script>
+  <script src="js/followups.js"></script>
+  <script src="js/site-visits.js"></script>
+  <script src="js/funnel.js"></script>
+  <script src="js/quotations.js"></script>
+</body>
+</html>
