@@ -1,6 +1,8 @@
 {
   "name": "uli-studio-erp",
   "version": "1.0.0",
-  "description": "ULI Studio ERP — Enterprise Architecture & Interior Design Prototype",
-  "private": true
+  "private": true,
+  "scripts": {
+    "build": "echo Static build complete"
+  }
 }
