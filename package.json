@@ -2,20 +2,5 @@
   "name": "uli-studio-erp",
   "version": "1.0.0",
   "description": "ULI Studio ERP — Enterprise Architecture & Interior Design Prototype",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "serve": "node server.js",
-    "test": "node -e \"console.log('All ERP prototype modules validated successfully');\""
-  },
-  "keywords": [
-    "erp",
-    "interior-design",
-    "architecture",
-    "procurement",
-    "crm",
-    "dashboard"
-  ],
-  "author": "ULI Studio",
-  "license": "UNLICENSED"
+  "private": true
 }

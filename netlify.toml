@@ -2,6 +2,11 @@
   publish = "."
 
 [[redirects]]
-  from = "/"
-  to = "/uli-dashboard/index.html"
-  status = 302
+  from = "/uli-dashboard"
+  to = "/index.html"
+  status = 301
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/index.html"
+  status = 301
