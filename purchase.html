@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ULI Studio ERP — Purchase & Procurement</title>
+  <link rel="stylesheet" href="/uli-purchase/css/styles.css">
+  <link rel="stylesheet" href="/uli-purchase/css/purchase.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.js"></script>
+</head>
+<body>
+
+  <!-- ═══════════ App Container ═══════════ -->
+  <div class="app-container">
+
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span class="logo-icon"><i data-lucide="gem"></i></span>
+          <span class="logo-text">ULI Studio <span class="logo-erp">ERP</span></span>
+        </div>
+        <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close sidebar">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Main Menu</div>
+        <a href="/index.html" class="nav-item">
+          <i data-lucide="layout-dashboard"></i>
+          <span class="nav-label">Overview</span>
+        </a>
+        <a href="/crm.html" class="nav-item">
+          <i data-lucide="handshake"></i>
+          <span class="nav-label">Leads & CRM</span>
+        </a>
+        <a href="/purchase.html" class="nav-item active" id="nav-purchase-root">
+          <i data-lucide="shopping-bag"></i>
+          <span class="nav-label">Purchase & PO</span>
+          <span class="nav-badge badge-count" id="sidebar-po-badge">7</span>
+        </a>
+        <div class="nav-item disabled" title="Coming soon">
+          <i data-lucide="kanban"></i>
+          <span class="nav-label">Project Management</span>
+          <span class="nav-badge badge-soon">Soon</span>
+        </div>
+        <div class="nav-item disabled" title="Coming soon">
+          <i data-lucide="file-stack"></i>
+          <span class="nav-label">Drawings & Docs</span>
+          <span class="nav-badge badge-soon">Soon</span>
+        </div>
+        <div class="nav-item disabled" title="Coming soon">
+          <i data-lucide="calculator"></i>
+          <span class="nav-label">Accounting & Finance</span>
+          <span class="nav-badge badge-soon">Soon</span>
+        </div>
+        <div class="nav-item disabled" title="Coming soon">
+          <i data-lucide="badge-check"></i>
+          <span class="nav-label">HR & Payroll</span>
+          <span class="nav-badge badge-soon">Soon</span>
+        </div>
+        <div class="nav-item disabled" title="Coming soon">
+          <i data-lucide="shield-check"></i>
+          <span class="nav-label">Roles & Approvals</span>
+          <span class="nav-badge badge-soon">Soon</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-badge">DEMO DATA</div>
+        <div class="sidebar-version">Purchase v0.3.0</div>
+      </div>
+    </aside>
+
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ── Main Content Area ── -->
+    <main class="main-content" id="main-content">
+
+      <!-- ── Top Navigation Bar ── -->
+      <header class="topnav" id="topnav">
+        <div class="topnav-left">
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Open sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="topnav-titles">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <a href="/index.html">Home</a>
+              <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+              <span>Purchase & PO</span>
+              <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+              <span class="breadcrumb-current" id="breadcrumb-current-view">Purchase Dashboard</span>
+            </nav>
+            <h1 class="page-title" id="page-title-text">Purchase Dashboard</h1>
+          </div>
+        </div>
+
+        <div class="topnav-right">
+          <!-- Global Search -->
+          <div class="topnav-search" id="topnav-search">
+            <button class="topnav-icon-btn" id="search-toggle-btn" aria-label="Search">
+              <i data-lucide="search"></i>
+            </button>
+            <div class="search-expanded" id="search-expanded">
+              <i data-lucide="search" class="search-input-icon"></i>
+              <input type="text" id="global-search-input" class="search-input" placeholder="Search PRs, POs, Vendors, GRNs…" autocomplete="off">
+              <button class="search-close-btn" id="search-close-btn" aria-label="Close search">
+                <i data-lucide="x"></i>
+              </button>
+              <div class="search-results" id="global-search-results"></div>
+            </div>
+          </div>
+
+          <!-- Notifications -->
+          <div class="topnav-notifications" id="topnav-notifications">
+            <button class="topnav-icon-btn" id="notifications-btn" aria-label="Notifications">
+              <i data-lucide="bell"></i>
+              <span class="notification-badge visible" id="notification-badge"></span>
+            </button>
+            <div class="dropdown-panel notifications-dropdown" id="notifications-dropdown">
+              <div class="dropdown-header">
+                <h3>Procurement Notifications</h3>
+                <button class="btn-link" id="mark-all-read-btn">Mark all read</button>
+              </div>
+              <div class="dropdown-body" id="notifications-list"></div>
+            </div>
+          </div>
+
+          <!-- User Profile -->
+          <div class="topnav-profile" id="topnav-profile">
+            <button class="profile-btn" id="profile-btn" aria-label="User profile">
+              <div class="avatar" style="background:linear-gradient(135deg, #0d9488, #0f766e)">NK</div>
+              <div class="profile-info">
+                <span class="profile-name">Neha Kapoor</span>
+                <span class="profile-role" style="color:var(--teal);background:var(--teal-light)">Procurement Head</span>
+              </div>
+              <i data-lucide="chevron-down" class="profile-chevron"></i>
+            </button>
+            <div class="dropdown-panel profile-dropdown" id="profile-dropdown">
+              <div class="dropdown-header profile-dropdown-header">
+                <div class="avatar avatar-lg" style="background:linear-gradient(135deg, #0d9488, #0f766e)">NK</div>
+                <div>
+                  <p class="profile-dropdown-name">Neha Kapoor</p>
+                  <p class="profile-dropdown-email">neha@ulistudio.com</p>
+                </div>
+              </div>
+              <div class="dropdown-body">
+                <a href="#" class="dropdown-item"><i data-lucide="user"></i> My Profile</a>
+                <a href="/crm.html" class="dropdown-item"><i data-lucide="handshake"></i> Open CRM Module</a>
+                <a href="/index.html" class="dropdown-item"><i data-lucide="layout-dashboard"></i> Open Overview Dashboard</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ── Purchase Sub-Navigation Bar (Module Views) ── -->
+      <nav class="pur-header-nav" aria-label="Purchase module navigation">
+        <div class="pur-nav-tabs" id="pur-main-tabs">
+          <button class="pur-tab-btn active" data-view="dashboard">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Dashboard</span>
+          </button>
+          <button class="pur-tab-btn" data-view="requisitions">
+            <i data-lucide="file-text"></i>
+            <span>Requisitions (PR)</span>
+            <span class="tab-badge" id="badge-pr-count">8</span>
+          </button>
+          <button class="pur-tab-btn" data-view="approvals">
+            <i data-lucide="clipboard-check"></i>
+            <span>Approval Queue</span>
+            <span class="tab-badge tab-badge-amber" id="badge-approvals-count">3</span>
+          </button>
+          <button class="pur-tab-btn" data-view="rfq">
+            <i data-lucide="scale"></i>
+            <span>Vendor RFQ</span>
+          </button>
+          <button class="pur-tab-btn" data-view="purchase-orders">
+            <i data-lucide="shopping-bag"></i>
+            <span>Purchase Orders</span>
+            <span class="tab-badge" id="badge-po-count">5</span>
+          </button>
+          <button class="pur-tab-btn" data-view="grn-list">
+            <i data-lucide="package-check"></i>
+            <span>Goods Receipt (GRN)</span>
+            <span class="tab-badge" id="badge-grn-count">3</span>
+          </button>
+          <button class="pur-tab-btn" data-view="3way-match">
+            <i data-lucide="git-compare"></i>
+            <span>3-Way Match & Bills</span>
+            <span class="tab-badge tab-badge-red" id="badge-match-count">2</span>
+          </button>
+          <button class="pur-tab-btn" data-view="client-changes">
+            <i data-lucide="sparkles"></i>
+            <span>Client Variations</span>
+            <span class="tab-badge tab-badge-purple" id="badge-client-changes-count">4</span>
+          </button>
+          <button class="pur-tab-btn" data-view="vendors">
+            <i data-lucide="truck"></i>
+            <span>Vendor Directory</span>
+            <span class="tab-badge" id="badge-vendor-count">8</span>
+          </button>
+          <button class="pur-tab-btn" data-view="exceptions">
+            <i data-lucide="alert-octagon"></i>
+            <span>Exceptions & Audit</span>
+            <span class="tab-badge tab-badge-red" id="badge-exception-count">4</span>
+          </button>
+        </div>
+
+        <div class="pur-header-actions">
+          <button class="btn btn-outline btn-sm" id="btn-top-create-po">
+            <i data-lucide="shopping-cart"></i>
+            <span>New PO</span>
+          </button>
+          <button class="btn btn-primary btn-sm" id="btn-top-create-pr">
+            <i data-lucide="plus"></i>
+            <span>Create PR</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 1: PURCHASE DASHBOARD
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view active" id="view-dashboard">
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item">
+              <i data-lucide="folder-kanban"></i>
+              <select id="dash-project-filter" aria-label="Project filter">
+                <option value="all">All Projects</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="truck"></i>
+              <select id="dash-vendor-filter" aria-label="Vendor filter">
+                <option value="all">All Vendors</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="calendar"></i>
+              <select id="dash-date-filter" aria-label="Date filter">
+                <option value="all" selected>All Dates</option>
+                <option value="this-month">This Month (Nov 2026)</option>
+                <option value="last-30d">Last 30 Days</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm" id="dash-refresh-btn">
+            <i data-lucide="refresh-cw"></i>
+            <span>Refresh</span>
+          </button>
+        </div>
+
+        <!-- 5 KPI Cards -->
+        <div class="pur-kpi-grid">
+          <div class="pur-kpi-card kpi-accent-amber" id="kpi-prs-awaiting">
+            <div class="pur-kpi-top">
+              <span class="pur-kpi-label">PRs Awaiting Approval</span>
+              <div class="pur-kpi-icon"><i data-lucide="clock"></i></div>
+            </div>
+            <div class="pur-kpi-value" id="kpi-val-pending-prs">3</div>
+            <div class="pur-kpi-sub">Total Value: <strong id="kpi-val-pending-prs-amt">₹72.7 L</strong></div>
+          </div>
+
+          <div class="pur-kpi-card kpi-accent-blue" id="kpi-open-pos">
+            <div class="pur-kpi-top">
+              <span class="pur-kpi-label">Open Purchase Orders</span>
+              <div class="pur-kpi-icon"><i data-lucide="shopping-bag"></i></div>
+            </div>
+            <div class="pur-kpi-value" id="kpi-val-open-pos">2</div>
+            <div class="pur-kpi-sub">Issued & Partially Delivered</div>
+          </div>
+
+          <div class="pur-kpi-card kpi-accent-teal" id="kpi-grns-pending">
+            <div class="pur-kpi-top">
+              <span class="pur-kpi-label">GRNs Pending Verification</span>
+              <div class="pur-kpi-icon"><i data-lucide="package-check"></i></div>
+            </div>
+            <div class="pur-kpi-value" id="kpi-val-grns">1</div>
+            <div class="pur-kpi-sub">Damaged items flagged</div>
+          </div>
+
+          <div class="pur-kpi-card kpi-accent-red" id="kpi-payables-due">
+            <div class="pur-kpi-top">
+              <span class="pur-kpi-label">Payables Due (Next 7 Days)</span>
+              <div class="pur-kpi-icon"><i data-lucide="wallet"></i></div>
+            </div>
+            <div class="pur-kpi-value" id="kpi-val-payables">₹4.98 L</div>
+            <div class="pur-kpi-sub">2 Vendor bills due shortly</div>
+          </div>
+
+          <div class="pur-kpi-card kpi-accent-purple" id="kpi-client-changes" role="button" tabindex="0" title="Click to view Client Variation Orders">
+            <div class="pur-kpi-top">
+              <span class="pur-kpi-label">Client Variations</span>
+              <div class="pur-kpi-icon"><i data-lucide="sparkles"></i></div>
+            </div>
+            <div class="pur-kpi-value" id="kpi-val-client-changes">4</div>
+            <div class="pur-kpi-sub">Cost Delta: <strong id="kpi-val-client-changes-amt" style="color:var(--purple)">+₹21.96 L</strong></div>
+          </div>
+        </div>
+
+        <!-- Client Variation Spotlight Banner -->
+        <div class="card" style="margin-bottom:20px;border-left:4px solid var(--purple);background:linear-gradient(90deg, #faf5ff 0%, #ffffff 100%);">
+          <div class="card-body" style="padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:40px;height:40px;border-radius:var(--radius);background:var(--purple-light);color:var(--purple);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i data-lucide="sparkles" style="width:22px;height:22px;"></i>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                  <span style="font-weight:700;font-size:.92rem;color:var(--text-primary);">Active Client Variation Orders</span>
+                  <span class="badge" style="background:#f3e8ff;color:#7e22ce;font-weight:700;">4 Requests Live</span>
+                  <span class="badge" style="background:#fef3c7;color:#92400e;font-weight:600;">+₹21.96 L Net Procurement Delta</span>
+                </div>
+                <div style="font-size:.8rem;color:var(--text-secondary);margin-top:2px;">
+                  Mid-project design modifications requested by clients (Singhania Villa, Oberoi Residence, Godrej BKC) driving requisition changes & PO amendments.
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-shrink:0;">
+              <button class="btn btn-outline btn-sm" id="btn-dash-open-latest-change" style="border-color:#d8b4fe;color:#7e22ce;">
+                <i data-lucide="eye"></i> Latest: CR-2026-0041
+              </button>
+              <button class="btn btn-primary btn-sm" id="btn-dash-all-changes" style="background:#7c3aed;border-color:#7c3aed;">
+                <span>View Full Change History →</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Grid (2 Columns) -->
+        <div class="pur-dash-grid">
+          <div>
+            <!-- Client Scope Variations & Change Orders (Top Priority) -->
+            <div class="card" style="margin-bottom:20px;">
+              <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                <h3 class="card-title"><i data-lucide="sparkles" style="color:var(--purple)"></i> Client Scope Variations (Material Impact)</h3>
+                <button class="btn-link" id="btn-dash-open-client-table">View All Variations Workspace →</button>
+              </div>
+              <div class="card-body no-padding">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Change Ref</th>
+                        <th>Client & Project</th>
+                        <th>Stated Request / Variation</th>
+                        <th>Cost Impact</th>
+                        <th>Status</th>
+                        <th>Linked PR / PO</th>
+                        <th style="text-align:right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dash-client-changes-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending PR Approvals Table -->
+            <div class="card" style="margin-bottom:20px;">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="file-clock" style="color:var(--amber)"></i> Pending PR Approvals</h3>
+                <button class="btn-link" id="btn-dash-open-approvals">View Approval Queue →</button>
+              </div>
+              <div class="card-body no-padding">
+                <div class="table-responsive">
+                  <table class="data-table" id="dash-pending-prs-table">
+                    <thead>
+                      <tr>
+                        <th>PR Ref</th>
+                        <th>Project</th>
+                        <th>Requester</th>
+                        <th>Estimated Amount</th>
+                        <th>Approval Level</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dash-pending-prs-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <!-- Open Purchase Orders Table -->
+            <div class="card" style="margin-bottom:20px;">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="shopping-bag" style="color:var(--blue)"></i> Open Purchase Orders</h3>
+                <button class="btn-link" id="btn-dash-open-pos">View All POs →</button>
+              </div>
+              <div class="card-body no-padding">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>PO Number</th>
+                        <th>Vendor</th>
+                        <th>Project</th>
+                        <th>PO Value</th>
+                        <th>Expected Delivery</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dash-open-pos-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Overdue Supplier Accounts Table -->
+            <div class="card" style="margin-bottom:20px;">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="alert-circle" style="color:var(--red)"></i> Overdue / Mismatched Supplier Bills</h3>
+                <span class="badge badge-status-mismatch">3-Way Discrepancies</span>
+              </div>
+              <div class="card-body no-padding">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Bill Ref</th>
+                        <th>Vendor</th>
+                        <th>Invoice Due</th>
+                        <th>Billed Amount</th>
+                        <th>Match Issue</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dash-mismatches-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Procurement Summary Workflow Tracker -->
+            <div class="card" style="margin-bottom:20px;">
+              <div class="card-header">
+                <h3 class="card-title"><i data-lucide="workflow"></i> Procurement Lifecycle</h3>
+              </div>
+              <div class="card-body">
+                <div style="font-size:.8rem;color:var(--text-secondary);line-height:1.6;margin-bottom:14px;">
+                  Current pipeline execution across active projects:
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;font-size:.81rem;" id="dash-pipeline-stages-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Purchase Activities (Full Width) -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><i data-lucide="activity"></i> Recent Procurement Activities & Audit Logs</h3>
+          </div>
+          <div class="card-body">
+            <div class="pur-timeline" id="dash-activities-timeline"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 2: PURCHASE REQUISITIONS LIST
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-requisitions">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item filter-search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="pr-search-input" placeholder="Search PR number, project, requester…">
+            </div>
+            <div class="filter-item">
+              <i data-lucide="filter"></i>
+              <select id="pr-status-filter" aria-label="PR status filter">
+                <option value="all">All Statuses</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="folder-kanban"></i>
+              <select id="pr-project-filter" aria-label="PR project filter">
+                <option value="all">All Projects</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btn-pr-create-new">
+            <i data-lucide="plus"></i>
+            <span>Create Requisition</span>
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table" id="pr-table">
+                <thead>
+                  <tr>
+                    <th class="sortable" data-sort="id">PR Number</th>
+                    <th>Project & Site</th>
+                    <th>Requested By</th>
+                    <th>Department</th>
+                    <th>Required By</th>
+                    <th>Items</th>
+                    <th class="sortable" data-sort="amount">Est. Amount</th>
+                    <th>Status</th>
+                    <th>Approver</th>
+                    <th style="text-align:right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="pr-table-tbody"></tbody>
+              </table>
+            </div>
+            <div class="state-message hidden" id="pr-empty-state">
+              <i data-lucide="file-x"></i>
+              <h4>No requisitions found</h4>
+              <p>Try adjusting your search criteria or create a new requisition.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 3: CREATE PURCHASE REQUISITION
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-create-pr">
+        <div id="create-pr-form-container"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 4: PR DETAIL & APPROVAL WORKSPACE
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-pr-detail">
+        <div id="pr-detail-container"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 5: APPROVAL QUEUE
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-approvals">
+        <div class="alert alert-info" style="margin-bottom:20px;">
+          <i data-lucide="info"></i>
+          <div>
+            <strong>Configurable Approval Tier Rules Active (Demo Rules):</strong>
+            <div style="font-size:.78rem;margin-top:3px;">
+              • <strong>Level 1 (≤ ₹1,00,000):</strong> Project Manager approval.<br>
+              • <strong>Level 2 (≤ ₹10,00,000):</strong> Procurement Head approval.<br>
+              • <strong>Level 3 (> ₹10,00,000):</strong> Managing Director authorization.<br>
+              • <em>Policy Rule: Requester cannot approve their own PR.</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><i data-lucide="inbox"></i> Pending Approval Queue</h3>
+            <span class="badge badge-priority-high" id="approvals-queue-count">3 Pending</span>
+          </div>
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>PR Number</th>
+                    <th>Requester</th>
+                    <th>Project</th>
+                    <th>Estimated Amount</th>
+                    <th>Submitted On</th>
+                    <th>Approval Level</th>
+                    <th>Current Approver</th>
+                    <th>Pending Duration</th>
+                    <th style="text-align:right">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="approvals-table-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 6: VENDOR COMPARISON / RFQ
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-rfq">
+        <div id="rfq-container"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 7: PURCHASE ORDER LIST
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-purchase-orders">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item filter-search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="po-search-input" placeholder="Search PO number, vendor, project…">
+            </div>
+            <div class="filter-item">
+              <i data-lucide="filter"></i>
+              <select id="po-status-filter" aria-label="PO status filter">
+                <option value="all">All PO Statuses</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btn-create-po-view">
+            <i data-lucide="plus"></i>
+            <span>Create Purchase Order</span>
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>PO Number</th>
+                    <th>Vendor</th>
+                    <th>Project</th>
+                    <th>PO Date</th>
+                    <th>Expected Delivery</th>
+                    <th>Ordered Amount</th>
+                    <th>Received Amount</th>
+                    <th>Status</th>
+                    <th style="text-align:right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="po-table-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 8: CREATE PURCHASE ORDER
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-create-po">
+        <div id="create-po-form-container"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 9: PURCHASE ORDER DETAIL
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-po-detail">
+        <div id="po-detail-container"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 10: GOODS RECEIPT LIST (GRN)
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-grn-list">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item filter-search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="grn-search-input" placeholder="Search GRN, PO number, vendor…">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btn-new-grn">
+            <i data-lucide="package-plus"></i>
+            <span>Receive Goods (Create GRN)</span>
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>GRN Number</th>
+                    <th>PO Ref</th>
+                    <th>Vendor</th>
+                    <th>Project / Site</th>
+                    <th>Received Date</th>
+                    <th>Inspected By</th>
+                    <th>Accepted Qty</th>
+                    <th>Rejected Qty</th>
+                    <th>Status</th>
+                    <th style="text-align:right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="grn-table-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 11: CREATE / INSPECT GRN
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-create-grn">
+        <div id="create-grn-container"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 12: VENDOR BILLS & 3-WAY MATCHING
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-3way-match">
+        <div id="threeway-match-container"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 13: VENDOR DIRECTORY
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-vendors">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item filter-search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="vendor-search-input" placeholder="Search vendor name, GSTIN, category…">
+            </div>
+            <div class="filter-item">
+              <i data-lucide="tag"></i>
+              <select id="vendor-category-filter">
+                <option value="all">All Categories</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btn-add-vendor">
+            <i data-lucide="user-plus"></i>
+            <span>Add Vendor</span>
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Vendor ID</th>
+                    <th>Vendor Name</th>
+                    <th>Category</th>
+                    <th>Contact Person</th>
+                    <th>Phone & Email</th>
+                    <th>GSTIN</th>
+                    <th>Terms</th>
+                    <th>Outstanding</th>
+                    <th>Status</th>
+                    <th style="text-align:right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="vendor-table-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 14: VENDOR DETAIL
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-vendor-detail">
+        <div id="vendor-detail-container"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 15: EXCEPTIONS & AUDIT TRAIL
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-exceptions">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item filter-search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="exception-search-input" placeholder="Search exceptions by ref, type, description…">
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><i data-lucide="shield-alert" style="color:var(--red)"></i> Procurement Exceptions & Discrepancies Register</h3>
+          </div>
+          <div class="card-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Ref ID</th>
+                    <th>Linked Ref</th>
+                    <th>Issue Type</th>
+                    <th>Severity</th>
+                    <th>Description</th>
+                    <th>Responsible</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th style="text-align:right">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="exceptions-table-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════
+           SCREEN 16: CLIENT VARIATIONS & SCOPE HISTORY
+           ══════════════════════════════════════════════════ -->
+      <section class="pur-view" id="view-client-changes">
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <div class="filter-item">
+              <i data-lucide="folder-kanban"></i>
+              <select id="cr-project-filter" aria-label="Project filter">
+                <option value="all">All Projects</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <i data-lucide="filter"></i>
+              <select id="cr-status-filter" aria-label="Status filter">
+                <option value="all">All Statuses</option>
+                <option value="Approved">Approved</option>
+                <option value="In Procurement Review">In Procurement Review</option>
+                <option value="Partially Delivered">Partially Delivered</option>
+              </select>
+            </div>
+            <div class="filter-item filter-search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="cr-search-input" placeholder="Search client, variation code, project...">
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm" id="cr-refresh-btn">
+            <i data-lucide="refresh-cw"></i>
+            <span>Refresh</span>
+          </button>
+        </div>
+
+        <!-- Metric highlights -->
+        <div class="pur-kpi-grid" style="margin-bottom:20px;">
+          <div class="pur-kpi-card kpi-accent-purple">
+            <div class="pur-kpi-top">
+              <span class="pur-kpi-label">Variation Orders</span>
+              <div class="pur-kpi-icon"><i data-lucide="sparkles"></i></div>
+            </div>
+            <div class="pur-kpi-value" id="cr-total-count">4</div>
+            <div class="pur-kpi-sub">Client mid-project alterations</div>
+          </div>
+          <div class="pur-kpi-card kpi-accent-amber">
+            <div class="pur-kpi-top">
+              <span class="pur-kpi-label">Commercial Variance</span>
+              <div class="pur-kpi-icon"><i data-lucide="trending-up"></i></div>
+            </div>
+            <div class="pur-kpi-value" id="cr-total-cost">+₹21.96 L</div>
+            <div class="pur-kpi-sub">Net material upgrade delta</div>
+          </div>
+          <div class="pur-kpi-card kpi-accent-blue">
+            <div class="pur-kpi-top">
+              <span class="pur-kpi-label">Max Site Buffer</span>
+              <div class="pur-kpi-icon"><i data-lucide="calendar"></i></div>
+            </div>
+            <div class="pur-kpi-value" id="cr-max-delay">+10 Days</div>
+            <div class="pur-kpi-sub">Custom imported marble transit</div>
+          </div>
+          <div class="pur-kpi-card kpi-accent-teal">
+            <div class="pur-kpi-top">
+              <span class="pur-kpi-label">Linked Documents</span>
+              <div class="pur-kpi-icon"><i data-lucide="link-2"></i></div>
+            </div>
+            <div class="pur-kpi-value" id="cr-linked-docs" style="font-size:1.3rem;">4 PRs / 2 POs</div>
+            <div class="pur-kpi-sub">Tracked in Procurement</div>
+          </div>
+        </div>
+
+        <!-- Variation Cards Container -->
+        <div id="cr-cards-container"></div>
+      </section>
+
+    </main>
+  </div><!-- /app-container -->
+
+  <!-- ═══════════ Shared Modal Overlay ═══════════ -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal" id="modal" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Modal Title</h3>
+        <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer">
+        <button class="btn btn-outline" id="modal-cancel-btn">Close</button>
+        <button class="btn btn-primary" id="modal-confirm-btn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ Toast Container ═══════════ -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- ═══════════ Scripts ═══════════ -->
+  <script src="/uli-purchase/js/mock-data.js"></script>
+  <script src="/uli-purchase/js/app.js"></script>
+  <script src="/uli-purchase/js/purchase-dashboard.js"></script>
+  <script src="/uli-purchase/js/requisitions.js"></script>
+  <script src="/uli-purchase/js/approvals.js"></script>
+  <script src="/uli-purchase/js/vendors.js"></script>
+  <script src="/uli-purchase/js/purchase-orders.js"></script>
+  <script src="/uli-purchase/js/goods-receipts.js"></script>
+  <script src="/uli-purchase/js/vendor-bills.js"></script>
+  <script src="/uli-purchase/js/client-changes.js"></script>
+</body>
+</html>

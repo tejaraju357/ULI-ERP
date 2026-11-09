@@ -100,7 +100,7 @@ function handleKPIClick(kpi) {
         '<div class="detail-row"><span class="detail-label">3-Way Match Alerts</span><span class="detail-value"><span class="badge" style="background:#fee2e2;color:#991b1b;">2 Discrepancies Flagged</span></span></div>' +
         '<div style="margin-top:16px;padding:12px;background:#eff6ff;border-radius:6px;border:1px solid #bfdbfe;display:flex;justify-content:space-between;align-items:center;">' +
           '<span style="font-size:.82rem;color:#1e40af;">Full 15-screen procurement workspace active:</span>' +
-          '<a href="uli-purchase/index.html" class="btn btn-primary btn-sm" style="color:#fff;text-decoration:none;">Open Purchase & PO →</a>' +
+          '<a href="/purchase.html" class="btn btn-primary btn-sm" style="color:#fff;text-decoration:none;">Open Purchase & PO →</a>' +
         '</div>',
       hideConfirm: true,
       cancelText: 'Close'
@@ -187,7 +187,7 @@ function showActionDetail(item) {
       (item.module === 'Purchase' ?
         '<div style="margin-top:14px;padding:10px 12px;background:#eff6ff;border-radius:6px;border:1px solid #bfdbfe;display:flex;justify-content:space-between;align-items:center;">' +
           '<span style="font-size:.8rem;color:#1e40af;">Manage in Purchase & PO module:</span>' +
-          '<a href="uli-purchase/index.html" class="btn btn-primary btn-sm" style="color:#fff;text-decoration:none;">Open Purchase Workspace →</a>' +
+          '<a href="/purchase.html" class="btn btn-primary btn-sm" style="color:#fff;text-decoration:none;">Open Purchase Workspace →</a>' +
         '</div>' : '') +
       '<p style="margin-top:16px;font-size:.78rem;color:var(--text-muted)">⚠ Detail view for prototype review.</p>',
     confirmText: 'Approve',
@@ -304,7 +304,7 @@ function handleQuickAction(action) {
           '<div class="form-group"><label>Notes</label><textarea class="form-textarea" placeholder="Brief description of the lead…"></textarea></div>' +
           '<div style="margin-top:12px;padding:8px 12px;background:#eff6ff;border-radius:6px;font-size:.78rem;color:#1e40af;display:flex;justify-content:space-between;align-items:center;">' +
             '<span>Full Leads & CRM module available:</span>' +
-            '<a href="../uli-crm/index.html" style="font-weight:600;color:#2563eb;text-decoration:underline;">Open CRM Module →</a>' +
+            '<a href="/crm.html" style="font-weight:600;color:#2563eb;text-decoration:underline;">Open CRM Module →</a>' +
           '</div>' +
           '<p style="font-size:.74rem;color:var(--text-muted);margin-top:8px">⚠ This is a prototype form. Submission will trigger a demo action only.</p>',
         confirmText: 'Create Lead',
@@ -321,7 +321,7 @@ function handleQuickAction(action) {
         body:
           '<div style="padding:12px 14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">' +
             '<div><strong style="color:#1e40af;">Full Purchase Module Active</strong><br><span style="font-size:.78rem;color:#2563eb;">Multi-item BOQ, real-time approval tier check, and vendor RFQ comparison.</span></div>' +
-            '<a href="uli-purchase/index.html" class="btn btn-primary btn-sm" style="color:#fff;text-decoration:none;">Launch Purchase Workspace →</a>' +
+            '<a href="/purchase.html" class="btn btn-primary btn-sm" style="color:#fff;text-decoration:none;">Launch Purchase Workspace →</a>' +
           '</div>' +
           '<div class="form-group"><label>Item Description</label><input type="text" class="form-input" placeholder="e.g. Italian Marble Tiles — 200 sqft"></div>' +
           '<div class="form-group"><label>Category</label><select class="form-select"><option>Materials</option><option>Fixtures</option><option>Furniture</option><option>Electrical</option><option>Plumbing</option><option>Services</option></select></div>' +

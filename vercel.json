@@ -8,20 +8,28 @@
       "destination": "/index.html"
     },
     {
-      "source": "/uli-dashboard",
-      "destination": "/index.html"
-    },
-    {
       "source": "/dashboard",
       "destination": "/index.html"
     },
     {
+      "source": "/uli-dashboard",
+      "destination": "/index.html"
+    },
+    {
       "source": "/crm",
-      "destination": "/uli-crm/index.html"
+      "destination": "/crm.html"
+    },
+    {
+      "source": "/uli-crm",
+      "destination": "/crm.html"
     },
     {
       "source": "/purchase",
-      "destination": "/uli-purchase/index.html"
+      "destination": "/purchase.html"
+    },
+    {
+      "source": "/uli-purchase",
+      "destination": "/purchase.html"
     }
   ]
 }

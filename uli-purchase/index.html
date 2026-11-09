@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ULI Studio ERP — Purchase & Procurement</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/purchase.css">
+  <link rel="stylesheet" href="/uli-purchase/css/styles.css">
+  <link rel="stylesheet" href="/uli-purchase/css/purchase.css">
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.js"></script>
 </head>
@@ -28,15 +28,15 @@
 
       <nav class="sidebar-nav">
         <div class="sidebar-section-title">Main Menu</div>
-        <a href="../index.html" class="nav-item">
+        <a href="/index.html" class="nav-item">
           <i data-lucide="layout-dashboard"></i>
           <span class="nav-label">Overview</span>
         </a>
-        <a href="../uli-crm/index.html" class="nav-item">
+        <a href="/crm.html" class="nav-item">
           <i data-lucide="handshake"></i>
           <span class="nav-label">Leads & CRM</span>
         </a>
-        <a href="#" class="nav-item active" id="nav-purchase-root">
+        <a href="/purchase.html" class="nav-item active" id="nav-purchase-root">
           <i data-lucide="shopping-bag"></i>
           <span class="nav-label">Purchase & PO</span>
           <span class="nav-badge badge-count" id="sidebar-po-badge">7</span>
@@ -88,7 +88,7 @@
           </button>
           <div class="topnav-titles">
             <nav class="breadcrumb" aria-label="Breadcrumb">
-              <a href="../index.html">Home</a>
+              <a href="/index.html">Home</a>
               <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
               <span>Purchase & PO</span>
               <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
@@ -149,8 +149,8 @@
               </div>
               <div class="dropdown-body">
                 <a href="#" class="dropdown-item"><i data-lucide="user"></i> My Profile</a>
-                <a href="../uli-crm/index.html" class="dropdown-item"><i data-lucide="handshake"></i> Open CRM Module</a>
-                <a href="../index.html" class="dropdown-item"><i data-lucide="layout-dashboard"></i> Open Overview Dashboard</a>
+                <a href="/crm.html" class="dropdown-item"><i data-lucide="handshake"></i> Open CRM Module</a>
+                <a href="/index.html" class="dropdown-item"><i data-lucide="layout-dashboard"></i> Open Overview Dashboard</a>
               </div>
             </div>
           </div>
@@ -899,15 +899,15 @@
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <!-- ═══════════ Scripts ═══════════ -->
-  <script src="js/mock-data.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/purchase-dashboard.js"></script>
-  <script src="js/requisitions.js"></script>
-  <script src="js/approvals.js"></script>
-  <script src="js/vendors.js"></script>
-  <script src="js/purchase-orders.js"></script>
-  <script src="js/goods-receipts.js"></script>
-  <script src="js/vendor-bills.js"></script>
-  <script src="js/client-changes.js"></script>
+  <script src="/uli-purchase/js/mock-data.js"></script>
+  <script src="/uli-purchase/js/app.js"></script>
+  <script src="/uli-purchase/js/purchase-dashboard.js"></script>
+  <script src="/uli-purchase/js/requisitions.js"></script>
+  <script src="/uli-purchase/js/approvals.js"></script>
+  <script src="/uli-purchase/js/vendors.js"></script>
+  <script src="/uli-purchase/js/purchase-orders.js"></script>
+  <script src="/uli-purchase/js/goods-receipts.js"></script>
+  <script src="/uli-purchase/js/vendor-bills.js"></script>
+  <script src="/uli-purchase/js/client-changes.js"></script>
 </body>
 </html>

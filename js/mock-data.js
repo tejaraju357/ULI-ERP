@@ -238,8 +238,8 @@ const DEMO_DATA = Object.freeze({
   /* ───── Sidebar Navigation ───── */
   navItems: [
     { id: 'overview',       label: 'Overview',              icon: 'layout-dashboard', active: true,  implemented: true },
-    { id: 'crm',            label: 'Leads & CRM',           icon: 'handshake',        active: false, implemented: true, href: 'uli-crm/index.html' },
-    { id: 'purchase',       label: 'Purchase & PO',         icon: 'shopping-bag',     active: false, implemented: true, href: 'uli-purchase/index.html' },
+    { id: 'crm',            label: 'Leads & CRM',           icon: 'handshake',        active: false, implemented: true, href: '/crm.html' },
+    { id: 'purchase',       label: 'Purchase & PO',         icon: 'shopping-bag',     active: false, implemented: true, href: '/purchase.html' },
     { id: 'projects',       label: 'Project Management',    icon: 'kanban',           active: false, implemented: false },
     { id: 'documents',      label: 'Drawings & Documents',  icon: 'file-stack',       active: false, implemented: false },
     { id: 'accounting',     label: 'Accounting & Finance',  icon: 'calculator',       active: false, implemented: false },
